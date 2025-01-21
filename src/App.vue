@@ -1,7 +1,8 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from "vue-router";
+import AdminaLyout from "./layouts/Admin.vue";
 </script>
 
 <template>
- <HelloWorld></HelloWorld>
+  <RouterView></RouterView>
 </template>
