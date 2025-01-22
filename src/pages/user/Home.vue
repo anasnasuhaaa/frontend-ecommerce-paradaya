@@ -1,3 +1,7 @@
 <template>
-  <h1 class="font-bold text-8xl">Ini Halaman Home</h1>
+  <Hero />
 </template>
+
+<script setup>
+import Hero from "../../components/Hero.vue";
+</script>
