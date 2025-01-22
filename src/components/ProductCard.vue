@@ -15,7 +15,9 @@
             <h2
               class="text-[18px] font-bold leading-tight text-gray-900 hover:underline"
             >
-              Radiant Charge Gel Cleanser
+              <router-link to="/detail-produk"
+                >Radiant Charge Gel Cleanser</router-link
+              >
             </h2>
             <p class="mt-1 text-[16px] text-gray-500">
               Lorem ipsum dolor sit amet
