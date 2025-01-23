@@ -1,8 +1,10 @@
 <template>
   <section class="py-8">
-    <div class="container mx-auto">
+    <div class="flex items-center justify-center mx-auto h-screen">
       <!-- Kontainer utama dengan styling -->
-      <div class="bg-white shadow-md max-w-[800px] mx-auto rounded-lg p-6">
+      <div
+        class="max-w-[800px] mx-auto rounded-lg border border-gray-300 bg-white p-6 shadow-sm"
+      >
         <div class="grid grid-cols-3 gap-4">
           <!-- Kolom 1 -->
           <div class="col-span-1 p-4">
