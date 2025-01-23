@@ -10,6 +10,8 @@ import ProductCard from "../components/ProductCard.vue";
 import DetailProduct from "../components/DetailProduct.vue";
 import Cart from "../pages/user/Cart.vue";
 import LoginForm from "../components/LoginForm.vue";
+import ProfileUser from "../components/ProfileUser.vue";
+import CheckoutForm from "../components/CheckoutForm.vue";
 import Settings from "../pages/admin/Settings.vue";
 import Dashboard from "../pages/admin/Dashboard.vue";
 import Category from "../pages/admin/Category.vue";
@@ -21,6 +23,8 @@ const routes = [
   { path: "/detail-produk", component: DetailProduct },
   { path: "/cart", component: Cart },
   { path: "/login", component: LoginForm },
+  { path: "/profile", component: ProfileUser },
+  { path: "/checkout", component: CheckoutForm },
   { path: "/category", component: CategoriyProduct},
   { path: "/register", component: FormRegister},
   {
