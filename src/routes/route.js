@@ -7,6 +7,8 @@ import ProductCard from "../components/ProductCard.vue";
 import DetailProduct from "../components/DetailProduct.vue";
 import Cart from "../pages/user/Cart.vue";
 import LoginForm from "../components/LoginForm.vue";
+import ProfileUser from "../components/ProfileUser.vue";
+import CheckoutForm from "../components/CheckoutForm.vue";
 
 const routes = [
   { path: "/", component: HomeView },
@@ -15,6 +17,8 @@ const routes = [
   { path: "/detail-produk", component: DetailProduct },
   { path: "/cart", component: Cart },
   { path: "/login", component: LoginForm },
+  { path: "/profile", component: ProfileUser },
+  { path: "/checkout", component: CheckoutForm },
 ];
 
 const router = createRouter({
