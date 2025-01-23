@@ -2,12 +2,14 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import HomeView from "../pages/user/Home.vue";
 // import AboutView from "./AboutView.vue";
+
+import AdminaLyout from "../layouts/Admin.vue";
+import CategoriyProduct from "../components/CategoriyProduct.vue";
+import FormRegister from "../components/FormRegister.vue";
 import ProductCard from "../components/ProductCard.vue";
 import DetailProduct from "../components/DetailProduct.vue";
 import Cart from "../pages/user/Cart.vue";
 import LoginForm from "../components/LoginForm.vue";
-
-import AdminLayout from "../layouts/Admin.vue";
 import Settings from "../pages/admin/Settings.vue";
 import Dashboard from "../pages/admin/Dashboard.vue";
 import Category from "../pages/admin/Category.vue";
@@ -19,6 +21,8 @@ const routes = [
   { path: "/detail-produk", component: DetailProduct },
   { path: "/cart", component: Cart },
   { path: "/login", component: LoginForm },
+  { path: "/category", component: CategoriyProduct},
+  { path: "/register", component: FormRegister},
   {
     path: "/admin",
     component: AdminLayout,
