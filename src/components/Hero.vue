@@ -10,7 +10,7 @@
         <h1
           class="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-primary"
         >
-          Jelajahi Keindahan Bersama Paragon
+          Jelajahi Keindahan Bersama Parastore
         </h1>
         <p class="mb-6 font-light text-gray-500">
           Pilihan tepat untuk produk kecantikan dan perawatan diri.

@@ -7,7 +7,7 @@
         <!-- Logo -->
         <div class="flex items-center space-x-8">
           <div class="shrink-0">
-            <a href="#" class="text-[26px] font-bold"> Paragonstore </a>
+            <a href="#" class="text-[26px] font-bold"> Parastore </a>
           </div>
         </div>
 
@@ -67,25 +67,26 @@
 
           <!-- Profile -->
           <button>
-            <svg
-              class="w-6 h-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M16.51 14.593C15.37 13.658 13.75 13 12 13s-3.37.658-4.51 1.593C6.51 16.528 6 18.194 6 19h12c0-.806-.51-2.472-1.49-3.407z"
-              />
-            </svg>
+            <router-link to="/profile">
+              <svg
+                class="w-6 h-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16.51 14.593C15.37 13.658 13.75 13 12 13s-3.37.658-4.51 1.593C6.51 16.528 6 18.194 6 19h12c0-.806-.51-2.472-1.49-3.407z"
+                /></svg
+            ></router-link>
           </button>
           <button class="btn-secondary">
             <router-link to="/login">Login</router-link>
