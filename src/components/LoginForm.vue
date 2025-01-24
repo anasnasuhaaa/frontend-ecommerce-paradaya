@@ -12,7 +12,7 @@
           >
             Sign in to your account
           </h1>
-          <form class="space-y-4 md:space-y-6" action="#">
+          <form class="space-y-4 md:space-y-6" @submit.prevent="handleLogin">
             <div>
               <label
                 for="email"
@@ -21,10 +21,8 @@
               >
               <input
                 type="email"
-                name="email"
-                id="email"
+                v-model="email"
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com"
                 required=""
               />
             </div>
@@ -36,9 +34,7 @@
               >
               <input
                 type="password"
-                name="password"
-                id="password"
-                placeholder="••••••••"
+                v-model="password"
                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required=""
               />
@@ -52,11 +48,11 @@
             </button>
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               Don’t have an account yet?
-              <a
-                href="#"
+              <RouterLink
+                :to="{ name: 'register' }"
                 class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >Sign up</a
-              >
+                >Sign up
+              </RouterLink>
             </p>
           </form>
         </div>
@@ -64,3 +60,24 @@
     </div>
   </section>
 </template>
+<script setup>
+import { ref } from "vue";
+import { useAuthStore } from "../stores/auth";
+import { RouterLink, useRouter } from "vue-router";
+
+const email = ref("");
+const password = ref("");
+const authStore = useAuthStore();
+const router = useRouter();
+
+const handleLogin = async () => {
+  try {
+    await authStore.login({ email: email.value, password: password.value });
+    // await authStore.fetchMe();
+    router.replace({ name: "verify" });
+  } catch (error) {
+    alert(error);
+    console.error(error);
+  }
+};
+</script>
