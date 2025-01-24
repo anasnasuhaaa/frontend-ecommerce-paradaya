@@ -3,7 +3,8 @@ import axios from "axios";
 import { useAuthStore } from "../stores/auth";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api/v1", // Ganti dengan URL backend Laravel Anda
+  baseURL:
+    "https://backend-ecommerce-paradaya-production.up.railway.app/api/v1/", 
 });
 
 // Interceptor untuk menambahkan token ke setiap permintaan
