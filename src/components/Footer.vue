@@ -9,7 +9,7 @@
       </a>
 
       <span class="text-sm text-white sm:text-center dark:text-gray-400"
-        >© 2021-2022 <a href="#" class="hover:underline">Parastore</a>. All
+        >© 2025 <a href="#" class="hover:underline">Parastore</a>. All
         Rights Reserved.</span
       >
     </div>

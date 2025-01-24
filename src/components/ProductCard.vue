@@ -28,7 +28,11 @@
             </p>
 
             <div class="card-action mt-5">
-              <button type="button" class="btn-secondary hover:bg-primary">
+              <button
+                @click="handlePayment"
+                type="button"
+                class="btn-secondary hover:bg-primary"
+              >
                 Add to cart
               </button>
             </div>
@@ -232,4 +236,32 @@
 import product from "../assets/product.jpg";
 import produc1 from "../assets/product (1).jpg";
 import bgimg from "../assets/bg-img.jpg";
+import apiClient from "../config/axios";
+
+const handlePayment = async () => {
+  try {
+    const response = await apiClient.post("/orders");
+    console.log(response);
+    await snap.pay(response.data.token, {
+      onSuccess: function (result) {
+        console.log("success");
+        console.log(result);
+      },
+      onPending: function (result) {
+        console.log("pending");
+        console.log(result);
+      },
+      onError: function (result) {
+        console.log("error");
+        console.log(result);
+      },
+      onClose: function () {
+        console.log("customer closed the popup without finishing the payment");
+      },
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>

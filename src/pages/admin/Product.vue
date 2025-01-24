@@ -3,14 +3,14 @@
     <AdminTitle></AdminTitle>
     <button
       type="button"
-      @click="modalVisible = true"
+      @click="openAddModal"
       class="text-white btn btn-md bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-0 text-center me-2 mb-2"
     >
       Add Product <v-icon name="fa-plus"></v-icon>
     </button>
   </div>
 
-  <!-- Modal Create -->
+  <!-- Modal Create/Edit -->
   <div
     v-if="modalVisible"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
@@ -22,11 +22,11 @@
         class="flex items-center justify-between p-4 border-b dark:border-gray-600"
       >
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Create New Product
+          {{ isEditMode ? "Edit Product" : "Create New Product" }}
         </h3>
         <button
           type="button"
-          @click="modalVisible = false"
+          @click="closeModal"
           class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
         >
           <svg
@@ -48,7 +48,7 @@
         </button>
       </div>
       <form
-        @submit.prevent="createProduct"
+        @submit.prevent="isEditMode ? updateProduct() : createProduct()"
         class="p-4"
         enctype="multipart/form-data"
       >
@@ -107,7 +107,6 @@
             id="image"
             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             @change="handleFileChange"
-            required
           />
         </div>
         <div class="mb-4">
@@ -151,7 +150,7 @@
             type="submit"
             class="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800"
           >
-            Add new product
+            {{ isEditMode ? "Update Product" : "Add new product" }}
           </button>
         </div>
       </form>
@@ -169,8 +168,9 @@
           <th scope="col" class="px-6 py-3">#</th>
           <th>Image</th>
           <th scope="col" class="px-6 py-3">Product Name</th>
-          <th scope="col" class="px-6 py-3">Price</th>
           <th scope="col" class="px-6 py-3">Category</th>
+          <th scope="col" class="px-6 py-3">Price</th>
+          <th scope="col" class="px-6 py-3">Stock</th>
           <th scope="col" class="text-center px-6 py-3">Action</th>
         </tr>
       </thead>
@@ -185,19 +185,20 @@
             <img :src="data.image" class="h-16" alt="" />
           </td>
           <td class="px-6 py-4">{{ data.name }}</td>
-          <td class="px-6 py-4">{{ data.price }}</td>
           <td class="px-6 py-4">{{ data.category?.name }}</td>
+          <td class="px-6 py-4">{{ data.price }}</td>
+          <td class="px-6 py-4">{{ data.stock }}</td>
           <td class="px-6 py-4 flex">
             <button
               type="button"
-              @click="() => openEditModal(data)"
+              @click="openEditModal(data)"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center"
             >
               Edit
             </button>
             <button
               type="button"
-              @click="() => deleteProduct(data)"
+              @click="deleteProduct(data)"
               class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center"
             >
               Delete
@@ -210,17 +211,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, provide } from "vue";
+import { ref, onMounted, provide } from "vue";
 import AdminTitle from "../../components/AdminTitle.vue";
 provide("name", "Data Products");
 import apiClient from "../../config/axios";
 import { toast } from "@steveyuowo/vue-hot-toast";
-import { useRoute, useRouter } from "vue-router";
 
 const products = ref([]);
 const categories = ref([]);
 
-const router = useRouter();
+const modalVisible = ref(false);
+const isEditMode = ref(false);
+
+const currentProductId = ref(null);
 
 const name = ref("");
 const price = ref("");
@@ -229,13 +232,10 @@ const stock = ref("");
 const category_id = ref("");
 const image = ref(null);
 
-const modalVisible = ref(false);
-
 const fetchProducts = async () => {
   try {
     const { data } = await apiClient.get("/products");
     products.value = data.data;
-    console.log(data.data);
   } catch (error) {
     toast.error("Error fetching products");
   }
@@ -254,6 +254,39 @@ const handleFileChange = (e) => {
   image.value = e.target.files[0];
 };
 
+const openAddModal = () => {
+  resetForm();
+  isEditMode.value = false;
+  modalVisible.value = true;
+};
+
+const openEditModal = (product) => {
+  currentProductId.value = product.id;
+  name.value = product.name;
+  price.value = product.price;
+  description.value = product.description;
+  stock.value = product.stock;
+  category_id.value = product.category_id;
+  image.value = null;
+  isEditMode.value = true;
+  modalVisible.value = true;
+};
+
+const closeModal = () => {
+  modalVisible.value = false;
+  resetForm();
+};
+
+const resetForm = () => {
+  currentProductId.value = null;
+  name.value = "";
+  price.value = "";
+  description.value = "";
+  stock.value = "";
+  category_id.value = "";
+  image.value = null;
+};
+
 const createProduct = async () => {
   try {
     const formData = new FormData();
@@ -266,28 +299,55 @@ const createProduct = async () => {
     formData.append("stock", stock.value);
     formData.append("category_id", category_id.value);
 
-    console.log(formData.get("image"));
-
     await apiClient.post("/products", formData, {
       headers: {
-        "Content-Type": "mulitpart/form-data",
+        "Content-Type": "multipart/form-data",
       },
     });
+    toast.success("Product created successfully");
     fetchProducts();
-    // toast.success("Product created successfully");
-    modalVisible.value = false;
+    closeModal();
   } catch (error) {
-    toast.error(error);
+    toast.error(error.response?.data?.message || "Error creating product");
+  }
+};
+
+const updateProduct = async () => {
+  try {
+    const formData = new FormData();
+    formData.append("name", name.value);
+    formData.append("price", price.value);
+    formData.append("description", description.value);
+    if (image.value) {
+      formData.append("image", image.value);
+    }
+    formData.append("stock", stock.value);
+    formData.append("category_id", category_id.value);
+
+    await apiClient.post(
+      `/products/${currentProductId.value}?_method=PUT`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    toast.success("Product updated successfully");
+    fetchProducts();
+    closeModal();
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Error updating product");
   }
 };
 
 const deleteProduct = async (product) => {
   try {
-    await apiClient.delete(`/products/${product.id}`);
-    toast.success("Product deleted successfully");
+    const response = await apiClient.delete(`/products/${product.id}`);
+    toast.success(response.data.message);
     fetchProducts();
   } catch (error) {
-    toast.error("Error deleting product");
+    toast.error(error.response?.data?.message || "Error deleting product");
   }
 };
 
